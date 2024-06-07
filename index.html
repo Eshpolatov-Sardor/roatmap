@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>roatmap</title>
+    <link rel="stylesheet" href="./src/output.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+      .image-button {
+        border: 1px solid #8897ab;
+        color: #8897ab;
+        background-color: #000000;
+      }
+      .image-button:hover {
+        border: 1px solid #fff;
+      }
+      .hover-move-right:hover {
+            transform: translateX(20px);
+            color: blue;
+            text-decoration: none;
+        }
+    </style>
+  </head>
+  <body  class="bg-[#0d1425] container mx-auto">
+    <header class="bg-[#080c16] pb-20">
+      <div class="">
+        <nav x-data="{ mobileMenuIsOpen: false }"  @click.away="mobileMenuIsOpen = false" class="w-[75%] mx-auto flex items-center justify-between bg-[#080c16] border-b border-[#080c16] gap-4 px-6 py-4 dark:border-[#080c16] dark:bg-[#080c16]" aria-label="penguin ui menu" >
+          <div class="grid grid-cols-6 ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 283 283"
+              fill="#000"
+              xmlns:v="https://vecta.io/nano"
+            >
+              <path
+                fill="#fff"
+                d="M0 39C0 17.46 17.46 0 39 0h205c21.539 0 39 17.46 39 39v205c0 21.539-17.461 39-39 39H39c-21.54 0-39-17.461-39-39V39Z"
+              ></path>
+              <path
+                d="M121.215 210.72c-1.867.56-4.854 1.12-8.96 1.68-3.92.56-8.027.84-12.32.84-4.107 0-7.84-.28-11.2-.84-3.174-.56-5.88-1.68-8.12-3.36s-4.014-3.92-5.32-6.72c-1.12-2.987-1.68-6.813-1.68-11.48v-84c0-4.293.746-7.933 2.24-10.92 1.68-3.173 4.013-5.973 7-8.4s6.626-4.573 10.92-6.44c4.48-2.053 9.24-3.827 14.28-5.32a106.176 106.176 0 0 1 15.68-3.36 95.412 95.412 0 0 1 16.24-1.4c8.96 0 16.053 1.773 21.28 5.32 5.226 3.36 7.84 8.96 7.84 16.8 0 2.613-.374 5.227-1.12 7.84-.747 2.427-1.68 4.667-2.8 6.72a133.1 133.1 0 0 0-12.04.56c-4.107.373-8.12.933-12.04 1.68s-7.654 1.587-11.2 2.52c-3.36.747-6.254 1.68-8.68 2.8v95.48zm45.172-22.4c0-7.84 2.426-14.373 7.28-19.6s11.48-7.84 19.88-7.84 15.026 2.613 19.88 7.84 7.28 11.76 7.28 19.6-2.427 14.373-7.28 19.6-11.48 7.84-19.88 7.84-15.027-2.613-19.88-7.84-7.28-11.76-7.28-19.6z"
+              ></path>
+            </svg>
+            <div
+              x-data="{ isOpen: false, openedWithKeyboard: false, leaveTimeout: null }"
+              @mouseleave.prevent="leaveTimeout = setTimeout(() => { isOpen = false }, 250)"
+              @mouseenter="leaveTimeout ? clearTimeout(leaveTimeout) : true"
+              @keydown.esc.prevent="isOpen = false, openedWithKeyboard = false"
+              @click.outside="isOpen = false, openedWithKeyboard = false"
+              class="relative max-[1028px]:hidden ">
+              <!-- Toggle Button -->
+              <button
+                type="button"
+                @mouseover="isOpen = true"
+                @keydown.space.prevent="openedWithKeyboard = true"
+                @keydown.enter.prevent="openedWithKeyboard = true"
+                @keydown.down.prevent="openedWithKeyboard = true"
+                class="inline-flex cursor-pointer items-center whitespace-nowrap rounded-xl border border-slate-300 bg-[#080c16] px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:focus-visible:outline-slate-300"
+                :class="isOpen || openedWithKeyboard ? 'text-black dark:text-white' : 'text-slate-700 dark:text-slate-300'"
+                :aria-expanded="isOpen || openedWithKeyboard"
+                aria-haspopup="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-menu h-5 w-5"
+                >
+                  <line x1="4" x2="20" y1="12" y2="12"></line>
+                  <line x1="4" x2="20" y1="6" y2="6"></line>
+                  <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+              </button>
+              <!--Menu -->
+              <div x-cloak x-show="isOpen || openedWithKeyboard" x-transition x-trap="openedWithKeyboard" @click.outside="isOpen = false, openedWithKeyboard = false" @keydown.down.prevent="$focus.wrap().next()" @keydown.up.prevent="$focus.wrap().previous()" class="absolute top-11 left-[-50px] flex w-full min-w-[22rem] flex-col overflow-hidden rounded-xl border border-slate-300 bg-[#080c16] py-1.5 dark:border-slate-700 dark:bg-slate-800" role="menu">
+                <a href="#" class="bg-[#080c16] gap-3 flex items-center px-4 py-3 text-sm text-white hover:bg-slate-800 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                  <ol class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full" >
+                    <li>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-waypoints inline-block h-5 w-5"
+                      >
+                        <circle cx="12" cy="4.5" r="2.5"></circle>
+                        <path d="m10.2 6.3-3.9 3.9"></path>
+                        <circle cx="4.5" cy="12" r="2.5"></circle>
+                        <path d="M7 12h10"></path>
+                        <circle cx="19.5" cy="12" r="2.5"></circle>
+                        <path d="m13.8 17.7 3.9-3.9"></path>
+                        <circle cx="12" cy="19.5" r="2.5"></circle>
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Roadmaps</li>
+                    <li href="#">Step by step learning paths</li>
+                  </ol></a>
+                <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-white hover:bg-slate-800 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem">
+                  <ol
+                    class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full">
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-check-big inline-block h-5 w-5">
+                        <path d="m9 11 3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Best Practices</li>
+                    <li href="#">Do's and Don'ts</li>
+                  </ol></a>
+                <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-white hover:bg-slate-800 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                  <ol class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full">
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-question inline-block h-5 w-5">
+                        <path d="M12 17h.01"></path>
+                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path>
+                        <path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"></path>
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Quistions</li>
+                    <li href="#">Test and Practice your knowledge</li>
+                  </ol></a>
+                <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-white hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-white dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"    role="menuitem"   >
+                  <ol class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full" >
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-text inline-block h-5 w-5">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        <path d="M6 8h2"></path>
+                        <path d="M6 12h2"></path>
+                        <path d="M16 8h2"></path>
+                        <path d="M16 12h2"></path>  
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Guides</li>
+                    <li href="#">In-depth articles and tutorials</li>
+                  </ol></a>
+                <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-wrap text-white hover:bg-slate-800 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                  <ol class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full" >
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video inline-block h-5 w-5">
+                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
+                        <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Videos</li>
+                    <li href="#">Animated and interactive content</li>
+                  </ol></a>
+                <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-white hover:bg-slate-800 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                  <ol class="w-[50px] h-[50px] bg-[#475569] flex justify-center items-center rounded-full" >
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shirt inline-block h-5 w-5">
+                        <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path>
+                      </svg>
+                    </li>
+                  </ol>
+                  <ol>
+                    <li href="#">Shop</li>
+                    <li href="#">Get some cool stuff</li>
+                  </ol></a
+                >
+              </div>
+            </div>
+            <button class="text-[#9099a1] hover:text-white max-[1028px]:hidden">Start Here</button>
+            <button class="text-[#0ea5e9] hover:text-white">Teams</button>
+            <button class="text-[#9099a1] hover:text-white max-[1028px]:hidden">Al Roadmaps</button>
+            <div
+              x-data="{ isOpen: false, openedWithKeyboard: false }"
+              class="relative max-[1028px]:hidden ml-4"
+              @keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+              <!-- Toggle Button -->
+              <button
+                type="button"
+                @click="isOpen = ! isOpen"
+                class="inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-xl border border-slate-300 bg-[bg-[#080c16]] px-4 py-2 text-sm font-medium tracking-wide transition hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:focus-visible:outline-slate-300"
+                aria-haspopup="true"
+                @keydown.space.prevent="openedWithKeyboard = true"
+                @keydown.enter.prevent="openedWithKeyboard = true"
+                @keydown.down.prevent="openedWithKeyboard = true"
+                :class="isOpen || openedWithKeyboard ? 'text-white dark:text-white' : 'text-slate-700 dark:text-slate-300'"
+                :aria-expanded="isOpen || openedWithKeyboard"
+              ><svg class="h-3 w-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.4145 20.5913L18.7695 15.9463C20.1838 13.8291 20.7601 11.2616 20.3862 8.74311C20.0123 6.22462 18.715 3.93524 16.7466 2.32029C14.7782 0.705331 12.2795 -0.119724 9.73651 0.00560621C7.19351 0.130936 4.78803 1.19769 2.98799 2.99837C1.18795 4.79905 0.122047 7.2049 -0.00238424 9.74795C-0.126815 12.291 0.699123 14.7894 2.31477 16.7572C3.93042 18.725 6.22026 20.0215 8.73889 20.3945C11.2575 20.7675 13.8248 20.1903 15.9415 18.7753L20.5865 23.4193C20.9647 23.7882 21.4721 23.9947 22.0005 23.9947C22.5288 23.9947 23.0363 23.7882 23.4145 23.4193C23.7894 23.0442 24 22.5356 24 22.0053C24 21.4749 23.7894 20.9663 23.4145 20.5913ZM10.2505 3.00527C11.6844 3.00527 13.0861 3.43047 14.2784 4.22711C15.4706 5.02375 16.3999 6.15605 16.9486 7.48081C17.4973 8.80558 17.6409 10.2633 17.3612 11.6697C17.0814 13.076 16.3909 14.3679 15.377 15.3818C14.3631 16.3957 13.0712 17.0862 11.6649 17.366C10.2585 17.6457 8.80078 17.5021 7.47602 16.9534C6.15125 16.4047 5.01896 15.4754 4.22232 14.2832C3.42568 13.0909 3.00047 11.6892 3.00047 10.2553C3.00259 8.3331 3.7671 6.49026 5.12628 5.13108C6.48546 3.7719 8.3283 3.00739 10.2505 3.00527Z" fill="currentColor"></path>
+              </svg><p>Search</p>
+              </button>
+              <!-- Dropdown Menu -->
+              <div
+                x-cloak
+                x-show="isOpen || openedWithKeyboard"
+                x-transition
+                x-trap="openedWithKeyboard"
+                @click.outside="isOpen = false, openedWithKeyboard = false"
+                @keydown.down.prevent="$focus.wrap().next()"
+                @keydown.up.prevent="$focus.wrap().previous()"
+                class="absolute top-11 left-[-300px] flex w-full min-w-[42rem] flex-col overflow-hidden rounded-xl border border-slate-300  py-1.5 dark:border-slate-700 dark:bg-[#f3f4f6]"
+                role="menu"
+              >
+              <a href="#" class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-white hover:text-black focus-visible:bg-slate-100 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+              role="menuitem">
+                <input type="text" placeholder="Search roadmaps, guides or pages .." class="w-full rounded-t-md border-b p-4 text-sm focus:bg-gray-50 focus:outline-none" autocomplete="off" value=""></a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 h-4 w-4 stroke-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
+                  </svg>
+                  <p>Home</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round h-4 w-4 stroke-[2.5px] text-slate-400 group-hover:text-white">
+                    <circle cx="12" cy="8" r="5"></circle>
+                    <path d="M20 21a8 8 0 0 0-16 0"></path>
+                  </svg>
+                  <p>Account</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                    <path d="M18 21a8 8 0 0 0-16 0"></path>
+                    <circle cx="10" cy="8" r="5"></circle>
+                    <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                  </svg>
+                  <p>Teams</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                    <path d="M18 21a8 8 0 0 0-16 0"></path>
+                    <circle cx="10" cy="8" r="5"></circle>
+                    <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                  </svg>
+                </li>
+                  <p>Friends</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4 stroke-2">
+                  <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z"></path>  
+                  <path d="M12 13v8"></path>
+                  <path d="M12 3v3"></path>
+                  </svg>
+                  <p>Roadmaps</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4 stroke-2">
+                    <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z"></path>  
+                    <path d="M12 13v8"></path>
+                    <path d="M12 3v3"></path>
+                    </svg>
+                  <p>Custom Roadmaps</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4 stroke-2">
+                    <line x1="10" x2="21" y1="6" y2="6"></line>
+                    <line x1="10" x2="21" y1="12" y2="12"></line>
+                    <line x1="10" x2="21" y1="18" y2="18"></line>
+                    <polyline points="3 6 4 7 6 5"></polyline>
+                    <polyline points="3 12 4 13 6 11"></polyline>
+                    <polyline points="3 18 4 19 6 17"></polyline>
+                  </svg>
+                  <p>Bist Practices</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4 stroke-2">
+                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <path d="M12 11h4"></path>
+                    <path d="M12 16h4"></path>
+                    <path d="M8 11h.01"></path>
+                    <path d="M8 16h.01"></path>
+                  </svg>
+                  <p>Questions</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-text inline-block h-5 w-5">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    <path d="M6 8h2"></path>
+                    <path d="M6 12h2"></path>
+                    <path d="M16 8h2"></path>
+                    <path d="M16 12h2"></path>  
+                  </svg>
+                  <p>Guides</p>
+                </a>
+                <a
+                  href="#"
+                  class="bg-white flex gap-5 items-center px-4 py-2 text-sm text-black hover:bg-[#f3f4f6] hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-[#ffffff] dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white"
+                  role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 h-4 w-4 stroke-2">
+                    <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"></path>
+                  </svg>
+                  <p>Videos</p>
+                </a>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Desktop Menu -->
+          <ul class="hidden items-center gap-4 flex-shrink-0 sm:flex">
+            <!-- User Pic -->
+            <li
+              x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }"
+              @keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false"
+              class="relative flex items-center"
+            >
+              <button
+                @click="userDropDownIsOpen = ! userDropDownIsOpen"
+                :aria-expanded="userDropDownIsOpen"
+                @keydown.space.prevent="openWithKeyboard = true"
+                @keydown.enter.prevent="openWithKeyboard = true"
+                @keydown.down.prevent="openWithKeyboard = true"
+                class="bg-purple-700 text-white font-semibold py-2 px-4 rounded-full flex items-center"
+                aria-controls="userMenu"
+              >
+                <p>Accout / Teams</p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-4 w-4 shrink-0 stroke-[2.5px]">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </button>
+              <!-- User Dropdown -->
+              <ul
+                x-cloak
+                x-show="userDropDownIsOpen || openWithKeyboard"
+                x-transition.opacity
+                x-trap="openWithKeyboard"
+                @click.outside="userDropDownIsOpen = false, openWithKeyboard = false"
+                @keydown.down.prevent="$focus.wrap().next()"
+                @keydown.up.prevent="$focus.wrap().previous()"
+                id="userMenu"
+                class="absolute right-0 top-12 flex w-full min-w-[14rem] flex-col overflow-hidden rounded-xl border border-slate-300 bg-slate-100 py-1.5 dark:border-slate-700 dark:bg-slate-800"
+              >
+                <li class="border-b border-[#0c1324] dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-handshake mr-2 h-4 w-4 text-slate-400 group-hover:text-white">
+                          <path d="m11 17 2 2a1 1 0 1 0 3-3"></path>
+                          <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path>
+                          <path d="m21 3 1 11h-2"></path>
+                          <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path>
+                          <path d="M3 4h8"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Onboarding</li>
+                      <li href="#">0 of 6</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round h-4 w-4 stroke-[2.5px] text-slate-400 group-hover:text-white">
+                          <circle cx="12" cy="8" r="5"></circle>
+                          <path d="M20 21a8 8 0 0 0-16 0"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Account</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-user-round h-4 w-4 stroke-[2.5px] text-slate-400 group-hover:text-white">
+                          <path d="M18 21a6 6 0 0 0-12 0"></path>
+                          <circle cx="12" cy="11" r="4"></circle>
+                          <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">My Profile</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                          <path d="M18 21a8 8 0 0 0-16 0"></path>
+                          <circle cx="10" cy="8" r="5"></circle>
+                          <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Friends</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                          <path d="M5 12h14"></path>
+                          <path d="M12 5v14"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">New Roadmaps</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                          <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+                          <path d="M15 5.764v15"></path>
+                          <path d="M9 3.236v15"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Roadmaps</li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-round h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                          <path d="M18 21a8 8 0 0 0-16 0"></path>
+                          <circle cx="10" cy="8" r="5"></circle>
+                          <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Teams</li>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-4 w-4 shrink-0 stroke-[2.5px] text-slate-400 group-hover:text-white">
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </li>
+                    </ol></a>
+                </li>
+                <li class="border-b border-slate-300 dark:border-slate-700">
+                  <a href="#" class="bg-slate-100 flex items-center gap-5 px-4 py-3 text-sm text-slate-700 hover:bg-slate-800/5 hover:text-black focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+                    <ol>
+                      <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out h-4 w-4 stroke-[2px] text-slate-400 group-hover:text-white">
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                          <polyline points="16 17 21 12 16 7"></polyline>
+                          <line x1="21" x2="9" y1="12" y2="12"></line>
+                        </svg>
+                      </li>
+                    </ol>
+                    <ol class=" w-full flex justify-between items-center">
+                      <li href="#">Logout</li>
+                    </ol></a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <!-- Mobile Menu Button -->
+          <button
+            @click="mobileMenuIsOpen = !mobileMenuIsOpen"
+            :aria-expanded="mobileMenuIsOpen"
+            :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20' : null"
+            type="button"
+            class="flex text-slate-700 dark:text-slate-300 sm:hidden"
+            aria-label="mobile menu"
+            aria-controls="mobileMenu">
+            <svg
+              x-cloak
+              x-show="!mobileMenuIsOpen"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+            <svg
+              x-cloak
+              x-show="mobileMenuIsOpen"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <!-- Mobile Menu -->
+          <ul
+            x-cloak
+            x-show="mobileMenuIsOpen"
+            x-transition:enter="transition motion-reduce:transition-none ease-out duration-300"
+            x-transition:enter-start="-translate-y-full"
+            x-transition:enter-end="translate-y-0"
+            x-transition:leave="transition motion-reduce:transition-none ease-out duration-300"
+            x-transition:leave-start="translate-y-0"
+            x-transition:leave-end="-translate-y-full"
+            class="fixed  max-h-svh overflow-y-auto inset-x-0 top-0 z-10 flex flex-col items-center rounded-b-xl border-b border-slate-300 bg-[#080c16] px-8 pb-6 pt-10 dark:border-slate-700 dark:bg-slate-800 sm:hidden">
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Roadmaps</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Best Practices</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Guides</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Videos</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Account</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Teams</a>
+          </li>
+          <li class="border-b border-none border-slate-300 dark:border-slate-700">
+            <a href="#" class="bg-[#080c16] flex items-center gap-5 px-4 py-3 text-sm text-slate-400 hover:bg-slate-800/5 hover:text-white focus-visible:bg-slate-800/10 focus-visible:text-black focus-visible:outline-none dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-100/5 dark:hover:text-white dark:focus-visible:bg-slate-100/10 dark:focus-visible:text-white" role="menuitem" >
+              Logout</a>
+          </li>
+          </ul>
+        </nav>
+      </div>
+      <section class="w-full mt-44">
+        <div class="flex items-center gap-1 p-2 justify-center text-white text-3xl">
+          <svg class="relative mr-2 top-[0.5px] w-[16px]  h-[16px] sm:w-[20px] sm:h-[20px]" stroke="currentColor" fill="white" stroke-width="0" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+          </svg>
+          <p>Start learning ..</p>
+        </div>
+        <div> 
+          <p class="text-center text-2xl text-[#cdcfd4] max-[1028px]:text-xxs">Your progress and favorite roadmaps will show up here.</p>
+        </div>
+        <div class="flex justify-center items-center p-2 gap-3 " >
+          <button class="flex justify-center items-center p-2 gap-3 border-dashed border-2 border-[#8a60b7] rounded-xl hover:border-sky-200">
+            <p class="text-2xl text-white hover:text-slate-300 max-[1028px]:text-[1px]">NEW</p>
+            <p class="text-2xl text-[#8a60b7] hover:text-slate-300 max-[1028px]:text-[1px]">Generate visual roadmaps with AI</p>
+          </button>
+        </div>
+      </section>
+    </header>
+    <section class="bg-[#0d1425] grid grid-cols-1">
+      <button class="p-2 rounded w-[250px] mt-[-20px] bg-black mx-auto text-[#555e6a] hover:text-white border-start border-2 border-[#555e6a] hover:border-white">Role based Roadmaps</button>
+      <div
+      id="buttons-container"
+      class="grid grid-cols-1 pb-4 gap-4 border-1 border-slate-300 p-4 dark:border-slate-700 w-[75%] mx-auto sm:grid-cols-2 max-md:grid-cols-1 lg:grid-cols-3  xl:grid-cols-4">
+    </div> <br>
+    <hr>
+    <button class="p-2 rounded w-[250px] mt-[-20px] bg-black mx-auto text-[#555e6a] hover:text-white border-start border-2 border-[#555e6a] hover:border-white">Skill based Roadmaps</button>
+    <div
+      id="buttons-container2"
+      class="grid grid-cols-1 pb-16 gap-4 border-1 border-slate-300 p-4 dark:border-slate-700 w-[75%] mx-auto sm:grid-cols-2 max-md:grid-cols-1 lg:grid-cols-3  xl:grid-cols-4">
+    </div>
+    <hr>
+    </section><br>
+    <section class="grid grid-cols-1">
+      <button class="p-2 rounded w-[250px] mt-[-50px] bg-black mx-auto text-[#555e6a] hover:text-white border-start border-2 border-[#555e6a] hover:border-white">Skill based Roadmaps</button>
+      <div
+        id="buttons-container3"
+        class="grid grid-cols-1 gap-4 border-1 border-slate-300 p-4 dark:border-slate-700 w-[75%] mx-auto sm:grid-cols-2 max-md:grid-cols-1 lg:grid-cols-3  xl:grid-cols-4">
+      </div>
+    </section>
+    <section class="w-full mx-auto bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <div class="w-[75%] mx-auto">
+        <!-- Guides Section -->
+        <div class="pt-16">
+            <h2 class="text-2xl font-bold mb-4">Guides</h2>
+            <ul class="space-y-2">
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right grid grid-cols-1 sm:grid-cols-2 max-[1028px]:text-xs"><p>50 Popular Backend Developer Interview Questions and Answers</p><p class="bg-[#86efac] w-24 text-center rounded ml-12">NEW - MAY</p></a>
+                    <span class="text-sm text-gray-600">Questions</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right grid grid-cols-1 sm:grid-cols-2 max-[1028px]:text-xs" ><p>20 Backend Project Ideas to take you from Beginner to Pro</p> <p class="bg-[#86efac] w-24 text-center rounded ml-12">NEW - MAY</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right grid grid-cols-1 sm:grid-cols-2 max-[1028px]:text-xs"><p>What Front End Programming Languages Should You Learn?</p> <p class="bg-[#86efac] w-24 text-center rounded ml-12">NEW - MAY</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right grid grid-cols-1 sm:grid-cols-2 max-[1028px]:text-xs"><p>Full Stack Developer or Software Engineer - Which Way to Go?</p> <p class="bg-[#86efac] w-24 text-center rounded ml-12">NEW - MAY</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right grid grid-cols-1 sm:grid-cols-2 max-[1028px]:text-xs"><p>Must-Have Java Full-stack Developer Skills in 2024</p> <p class="bg-[#86efac] w-24 text-center rounded ml-12">NEW - MAY</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right   max-[1028px]:text-xs"><p>25 Essential Backend Development Tools for 2024</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li> 
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right  max-[1028px]:text-xs"><p>8 In-Demand Backend Developer Skills to Master</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right  max-[1028px]:text-xs"><p>The 5 Best Backend Development Languages to Master (2024)</p></a>
+                    <span class="text-sm text-gray-600">Textual</span>
+                </li>
+            </ul>
+            <div class="mt-4">
+                <a href="#" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-blue-800">View All Guides →</a>
+            </div>
+        </div>
+
+        <!-- Videos Section -->
+        <div class="mt-11">
+            <h2 class="text-2xl font-bold mb-4">Videos</h2>
+            <ul class="space-y-2">
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Session Based Authentication</a>
+                    <span class="text-sm text-gray-600">2 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Basic Authentication</a>
+                    <span class="text-sm text-gray-600">5 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Basics of Authentication</a>
+                    <span class="text-sm text-gray-600">5 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Graph Data Structure</a>
+                    <span class="text-sm text-gray-600">13 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Heap Data Structure</a>
+                    <span class="text-sm text-gray-600">11 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Tree Data Structure</a>
+                    <span class="text-sm text-gray-600">8 Minutes</span>
+                </li>
+                <li class="flex justify-between items-center">
+                    <a href="#" class="text-black hover:underline hover-move-right max-[1028px]:text-xs">Hash Table Data Structure</a>
+                    <span class="text-sm text-gray-600">8 Minutes</span>
+                </li>
+            </ul>
+            <div class="mt-4 pb-12">
+                <a href="#" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-blue-800">View All Videos →</a>
+            </div>
+        </div>
+    </div>
+    <main class="bg-white flex items-center justify-center min-h-screen">
+      <div class="text-center p-8 bg-white">
+        <h1 class="text-4xl font-bold mb-4">Join the Community</h1>
+        <p class="mb-8 text-xl">roadmap.sh is the <a href="#" class="text-black underline ">6th most starred project on GitHub</a> and is visited by <br> hundreds of thousands of developers every month.</p>
+        
+        <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+            <div class="text-center">
+                <span class=" text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 grid grid-cols-2"><p class="bg-[#3b82f6] text-white rounded">Rank 6th</p> <p class="text-blue-800">out of 28M!</p></span>
+                <div class="text-5xl font-bold my-2">278k</div>
+                <div class="text-gray-500 mb-4">GitHub Stars</div>
+                <a href="#" class="bg-white text-black px-4 py-2 w-48 rounded border-black border  hover:bg-black hover:text-white grid grid-cols-1">
+                  <ol class="flex items-center gap-2">
+                    <li>
+                      <svg class="-ml-1 fill-current" focusable="false" width="14" height="15" viewBox="0 0 14 15" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.99999 11.1515L2.88574 13.4545L3.80449 8.82984L0.342407 5.6285L5.02482 5.07317L6.99999 0.791504L8.97516 5.07317L13.6576 5.6285L10.1955 8.82984L11.1142 13.4545L6.99999 11.1515Z"></path>
+                      </svg>
+                    </li>
+                    <li><b>Star us on GitHub</b></li>
+                  </ol>
+                  <ol>
+                    <li>
+                      Help us reach #1
+                    </li>
+                  </ol>
+                </a>
+            </div>
+            
+            <div class="text-center">
+                <span class=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded grid grid-cols-2"><p class="bg-[#3b82f6] text-white rounded">+55k </p> <p class="text-blue-800">every month</p></span>
+                <div class="text-5xl font-bold my-2">850k</div>
+                <div class="text-gray-500 mb-4">Registered Users</div>
+                <a href="#" class="bg-white text-black px-4 py-2 w-48 rounded border-black border  hover:bg-black hover:text-white grid grid-cols-1">
+                  <ol class="flex items-center gap-2">
+                    <li>
+                      <svg data-v-f24af897 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" strokelinejoin="round" class="-ml-1 h-[15px] fill-current">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                      </svg>
+                    </li>
+                    <li><b>Register yourself</b></li>
+                  </ol>
+                  <ol>
+                    <li class="text-sm">
+                      Commit to your growth
+                    </li>
+                  </ol>
+                </a>
+            </div>
+            
+            <div class="text-center">
+                <span class=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded grid grid-cols-2"><p class="bg-[#3b82f6] text-white rounded">+1.5k</p> <p class="text-blue-800">every month</p></span>
+                <div class="text-5xl font-bold my-2">21k</div>
+                <div class="text-gray-500 mb-4">Discord Members</div>
+                <a href="#" class="bg-white text-black px-4 py-2 w-48 rounded border-black border  hover:bg-black hover:text-white grid grid-cols-1">
+                  <ol class="flex items-center gap-2">
+                    <li>
+                      <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="-ml-1 h-[13px] fill-current">
+                        <g clip-path="url(#clip0_1303_4)">
+                          <path d="M2.79481 1.71886C2.80349 1.70994 2.81651 1.70101 2.82953 1.68762C3.86686 0.830474 5.25576 0.392973 6.23667 0.183152C7.20455 -0.0266694 8.17242 0.540293 8.48492 1.50012C8.48925 1.51798 8.49792 1.53136 8.5023 1.54922C6.87467 1.71886 5.42067 2.17869 4.24013 2.89744C3.93196 3.08494 3.83214 3.49565 4.01443 3.81708C4.13596 4.0269 4.35296 4.14298 4.57434 4.14298C4.68717 4.14298 4.80438 4.11172 4.90855 4.04923C6.23667 3.23672 7.9988 2.80815 9.99967 2.80815C12.0005 2.80815 13.7627 3.23672 15.0908 4.04923C15.4033 4.23673 15.8026 4.13404 15.9849 3.81708C16.1672 3.49565 16.0674 3.08494 15.7592 2.89744C14.5787 2.17869 13.1247 1.71886 11.4971 1.54922C11.5014 1.53136 11.5101 1.51798 11.5144 1.50012C11.8269 0.540293 12.7948 -0.0266694 13.7627 0.183152C14.7436 0.392973 16.1325 0.830474 17.1698 1.68762C17.1828 1.70101 17.1958 1.70994 17.2045 1.71886C18.1681 2.63851 19.9476 7.31707 19.9476 11.5671C19.9476 11.6831 19.9215 11.7947 19.8651 11.8974C18.8061 13.8126 16.3104 14.5135 15.2818 14.7233C15.1559 14.7501 15.03 14.7635 14.9042 14.7635C14.2879 14.7635 13.6933 14.4599 13.3243 13.9331L13.0986 13.6162C15.3339 13.0715 16.4797 12.0894 16.5448 12.0314C16.8183 11.7903 16.853 11.3707 16.6186 11.0894C16.3842 10.8082 15.9763 10.7724 15.7028 11.009C15.6681 11.0403 13.754 12.6341 9.99967 12.6341C6.22796 12.6341 4.31392 11.0269 4.29655 11.009C4.02311 10.7724 3.61078 10.8082 3.38075 11.0939C3.15071 11.3751 3.1811 11.7947 3.45453 12.0314C3.51964 12.0894 4.66546 13.0715 6.90071 13.6162L6.67501 13.9331C6.30609 14.4599 5.71146 14.7635 5.09517 14.7635C4.9693 14.7635 4.84342 14.7501 4.71755 14.7233C3.68891 14.5135 1.19325 13.8126 0.134222 11.8974C0.0777986 11.7947 0.0517578 11.6831 0.0517578 11.5671C0.0517578 7.31707 1.83127 2.63851 2.79481 1.71886ZM12.8078 10.3573C13.6368 10.3573 14.3096 9.56707 14.3096 8.58941C14.3096 7.61171 13.6368 6.82156 12.8078 6.82156C11.9745 6.82156 11.3018 7.61171 11.3018 8.58941C11.3018 9.56707 11.9745 10.3573 12.8078 10.3573ZM7.20455 10.393C8.04221 10.393 8.72363 9.59386 8.72363 8.60724C8.72363 7.62067 8.04221 6.82156 7.20455 6.82156C6.36251 6.82156 5.68542 7.62067 5.68542 8.60724C5.68542 9.59386 6.36251 10.393 7.20455 10.393Z" fill="currentColor"></path>
+                        </g>
+                      </svg>
+                    </li>
+                    <li><b>Join on Discord</b></li>
+                  </ol>
+                  <ol>
+                    <li>
+                      Join the community
+                    </li>
+                  </ol>
+                </a>
+            </div>
+        </div>
+    </div>
+    </main>
+    <footer class="bg-gray-900 text-white max-[1028px]:px-10-0 max-[1028px]:p-0">
+      <nav class="grid grid-cols-1 sm:grid-cols-6 space-x-4 mt-6 pt-20 w-[45%] mx-auto">
+        <a href="#" class="text-gray-400 hover:text-yellow-200">Roadmaps</a>
+        <a href="#" class="text-gray-400 hover:text-yellow-200">Best Practices</a>
+        <a href="#" class="text-gray-400 hover:text-yellow-200">Guides</a>
+        <a href="#" class="text-gray-400 hover:text-yellow-200">Videos</a>
+        <a href="#" class="text-gray-400 hover:text-yellow-200">FAQs</a>
+        <a href="#" class="text-gray-400 hover:text-yellow-200">YouTube</a>
+    </nav>
+      <div class="flex justify-between flex-wrap items-center p-6 w-[55%] mx-auto max-[1028px]:ml-[-500px]">
+        <div>
+            <a href="#" class="flex items-center mb-4">
+                <div class="bg-white text-black p-2 rounded">
+                    <span class="font-bold text-lg">
+                      <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 283 283"
+              fill="#000"
+              xmlns:v="https://vecta.io/nano"
+            >
+              <path
+                fill="#fff"
+                d="M0 39C0 17.46 17.46 0 39 0h205c21.539 0 39 17.46 39 39v205c0 21.539-17.461 39-39 39H39c-21.54 0-39-17.461-39-39V39Z"
+              ></path>
+              <path
+                d="M121.215 210.72c-1.867.56-4.854 1.12-8.96 1.68-3.92.56-8.027.84-12.32.84-4.107 0-7.84-.28-11.2-.84-3.174-.56-5.88-1.68-8.12-3.36s-4.014-3.92-5.32-6.72c-1.12-2.987-1.68-6.813-1.68-11.48v-84c0-4.293.746-7.933 2.24-10.92 1.68-3.173 4.013-5.973 7-8.4s6.626-4.573 10.92-6.44c4.48-2.053 9.24-3.827 14.28-5.32a106.176 106.176 0 0 1 15.68-3.36 95.412 95.412 0 0 1 16.24-1.4c8.96 0 16.053 1.773 21.28 5.32 5.226 3.36 7.84 8.96 7.84 16.8 0 2.613-.374 5.227-1.12 7.84-.747 2.427-1.68 4.667-2.8 6.72a133.1 133.1 0 0 0-12.04.56c-4.107.373-8.12.933-12.04 1.68s-7.654 1.587-11.2 2.52c-3.36.747-6.254 1.68-8.68 2.8v95.48zm45.172-22.4c0-7.84 2.426-14.373 7.28-19.6s11.48-7.84 19.88-7.84 15.026 2.613 19.88 7.84 7.28 11.76 7.28 19.6-2.427 14.373-7.28 19.6-11.48 7.84-19.88 7.84-15.027-2.613-19.88-7.84-7.28-11.76-7.28-19.6z"
+              ></path>
+            </svg>
+                    </span>
+                </div>
+                <span class="text-lg font-bold ml-2">roadmap.sh</span>
+                <span class="bg-blue-500 text-white ml-2 px-2 py-1 rounded">by Kamran</span>
+            </a>
+            <p class="text-gray-400 w-80 max-[1028px]:ml-[-50px]">
+                Community created roadmaps, articles, resources and journeys to help you choose your path and grow in your career.
+            </p>
+            <div class="mt-4 max-[1028px]:ml-[-50px]">
+                <a href="#" class="text-gray-400 mx-2">© roadmap.sh</a>
+                <a href="#" class="text-gray-400 mx-2">Terms</a>
+                <a href="#" class="text-gray-400 mx-2">Privacy</a>
+                <a href="#" class="text-gray-400 mx-2">Email</a>
+                <a href="#" class="text-gray-400 mx-2">YouTube</a>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="flex items-center mb-4 max-[1028px]:ml-[-50px]">
+                <span class="text-2xl font-bold text-blue-400">
+                  <img src="	https://roadmap.sh/images/tns-sm.png" class="pl-28" alt="">
+                </span>
+            </a>
+            <p class="text-gray-400 w-80 text-end max-[1028px]:ml-[-50px] max-[1028px]:text-left">
+                The leading DevOps resource for Kubernetes, cloud-native computing, and the latest in at-scale development, deployment, and management.
+            </p>
+            <div class="mt-4">
+                <a href="#" class="text-gray-400 mx-2">DevOps</a>
+                <a href="#" class="text-gray-400 mx-2">Kubernetes</a>
+                <a href="#" class="text-gray-400 mx-2">Cloud-Native</a>
+            </div>
+        </div>
+    </div>
+    </footer>
+
+
+
+
+
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="./js/scripit.js"></script>
+  </body>
+</html>
