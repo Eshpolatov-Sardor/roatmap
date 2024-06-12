@@ -184,3 +184,111 @@ addButton.addEventListener("click", () => {
 
 // Add the Add Button to the container
 document.getElementById("buttons-container").appendChild(addButton);
+
+
+
+function copyLink() {
+  const link = "https://roadmap.sh/card/tall/66660fa0b998f3b3c7cf146fa";
+  navigator.clipboard.writeText(link).then(() => {
+      const button = document.getElementById("copy-link-button");
+      button.innerHTML = '<i class="fas fa-check"></i> Link Copied!';
+      setTimeout(() => {
+          button.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
+      }, 1000);
+  });
+}
+
+function copyTextareaContent(elementId, buttonId) {
+  const textarea = document.getElementById(elementId);
+  textarea.select();
+  document.execCommand("copy");
+  const button = document.getElementById(buttonId);
+  button.innerHTML = '<i class="fas fa-check"></i>';
+  setTimeout(() => {
+      button.innerHTML = '<i class="fas fa-copy"></i>';
+  }, 1000);
+}
+
+function downloadImage() {
+  const link = document.createElement('a');
+  link.href = 'https://roadmap.sh/card/tall/66660fa0b998f3b3c7cf146fa';  // Replace with the actual image URL
+  link.download = 'roadmap_card.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function toggleImageSize(size) {
+  const image = document.getElementById('roadmap-image');
+  if (size === 'tall') {
+      image.classList.remove('image-wide');
+      image.classList.add('image-tall');
+  } else if (size === 'wide') {
+      image.classList.remove('image-tall');
+      image.classList.add('image-wide');
+  }
+}
+
+function toggleCardTheme(theme) {
+  const card = document.getElementById('roadmap-card');
+  if (theme === 'dark') {
+      card.classList.remove('card-light');
+      card.classList.add('card-dark');
+  } else if (theme === 'light') {
+      card.classList.remove('card-dark');
+      card.classList.add('card-light');
+  }
+}
+function copyToClipboard() {
+  var copyText = document.getElementById("invite-link");
+  var copyButton = document.getElementById("copy-button");
+  
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+  document.execCommand("copy");
+  
+  // Change button text to "Copied!"
+  copyButton.textContent = "Copied!";
+  copyButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
+  copyButton.classList.add("bg-green-500");
+
+  // After 1 second, change it back to "Copy"
+  setTimeout(function() {
+      copyButton.textContent = "Copy";
+      copyButton.classList.remove("bg-green-500");
+      copyButton.classList.add("bg-blue-500", "hover:bg-blue-600");
+  }, 1000);
+}
+// Toggle dropdown menu
+document.getElementById('dropdown-button').addEventListener('click', function() {
+  document.getElementById('dropdown-menu').classList.toggle('show');
+});
+
+// Set profile status
+function setProfileStatus(status) {
+  document.getElementById('dropdown-button-text').textContent = status;
+  document.getElementById('dropdown-menu').classList.remove('show');
+}
+
+// Copy to clipboard functionality
+function copyToClipboard() {
+  var copyText = document.getElementById("profile-url");
+  var copyButton = document.getElementById("copy-button");
+  
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+  document.execCommand("copy");
+  
+  // Change button text to "Copied!"
+  copyButton.textContent = "Copied!";
+  copyButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
+  copyButton.classList.add("bg-green-500");
+
+  // After 1 second, change it back to "Copy"
+  setTimeout(function() {
+      copyButton.textContent = "Copy";
+      copyButton.classList.remove("bg-green-500");
+      copyButton.classList.add("bg-blue-500", "hover:bg-blue-600");
+  }, 1000);
+}
